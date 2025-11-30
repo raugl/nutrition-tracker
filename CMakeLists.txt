@@ -3,6 +3,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 20)
 
+# Set the project name and language
+project(
+    NutritionTracker
+    VERSION 0.0.1
+    LANGUAGES CXX C
+)
+
 include(FetchContent)
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
     cmake_policy(SET CMP0135 NEW)
@@ -18,25 +25,11 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
-# install vcpkg dependencies: - should be called before defining project()
-run_vcpkg(
-    VCPKG_URL "https://github.com/microsoft/vcpkg.git"
-    VCPKG_REV "9a5e44fcc1d6d734f46e385245438afaa7e53e28"
-    ENABLE_VCPKG_UPDATE
-)
-
-# Set the project name and language
-project(
-    NutritionTracker
-    VERSION 0.0.1
-    LANGUAGES CXX C
-)
-
 # Initialize project_options variable related to this project
 # This overwrites `project_options` and sets `project_warnings`
 # uncomment to enable the options. Some of them accept one or more inputs:
 project_options(
-    ENABLE_CACHE
+    # ENABLE_CACHE
     # ENABLE_CLANG_TIDY
     # ENABLE_VS_ANALYSIS
     ENABLE_INTERPROCEDURAL_OPTIMIZATION
@@ -68,9 +61,27 @@ endif()
 
 # TODO: Install clang 16 to be able to build this and with libc++, then test if lldb pretty
 # printing is any better than with stdlibc++
-if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    target_compile_options(project_options INTERFACE -stdlib=libc++)
-    target_link_libraries(project_options INTERFACE c++ c++abi)
-endif()
+# if(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+#     target_compile_options(project_options INTERFACE -stdlib=libc++)
+#     target_link_libraries(project_options INTERFACE c++ c++abi)
+# endif()
+
+add_library(imgui STATIC
+    vendor/imgui/imgui.cpp
+    vendor/imgui/imgui_demo.cpp
+    vendor/imgui/imgui_draw.cpp
+    vendor/imgui/imgui_tables.cpp
+    vendor/imgui/imgui_widgets.cpp
+    vendor/imgui/backends/imgui_impl_sdl2.cpp
+    vendor/imgui/backends/imgui_impl_opengl3.cpp
+)
+
+target_include_directories(imgui PUBLIC vendor/imgui vendor/imgui/backends)
+target_link_libraries(imgui PRIVATE SDL2::SDL2)
+
+add_subdirectory(vendor/SDL)
+add_subdirectory(vendor/fmt)
+add_subdirectory(vendor/range-v3)
+add_subdirectory(vendor/nlohmann-json)
 
 add_subdirectory(src)

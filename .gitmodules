@@ -1,0 +1,15 @@
+[submodule "vendor/SDL"]
+	path = vendor/SDL
+	url = https://github.com/libsdl-org/SDL
+[submodule "vendor/fmt"]
+	path = vendor/fmt
+	url = git@github.com:fmtlib/fmt.git
+[submodule "vendor/range-v3"]
+	path = vendor/range-v3
+	url = git@github.com:ericniebler/range-v3.git
+[submodule "vendor/nlohmann-json"]
+	path = vendor/nlohmann-json
+	url = git@github.com:nlohmann/json.git
+[submodule "vendor/imgui"]
+	path = vendor/imgui
+	url = git@github.com:ocornut/imgui.git
