@@ -1,23 +1,21 @@
 # Nutrition Tracker
 
-This is currently work in progress.
+> [!WARNING]
+> **Work in progress** — this project is currently under active development.
 
-This is an application meant for helping with meal tracking.
-It allows you to attach notes to individual meals, to view graphs
-of your history over time, and to plan meals by their nutritional value.
+This application helps with tracking meals.  
+You can attach notes to meals, view graphs of your history over time,
+and plan meals by nutritional value.
+
+![Demo screenshot](res/demo.png)
 
 # Building
 
 You will need `git`, `cmake`, and some sort of C/C++ tool chain.
 
 ```sh
-git clone https://github.com/WalterGates/nutrition-tracker.git
+git clone --recurse-submodules https://github.com/raugl/nutrition-tracker.git
 cd nutrition-tracker
 cmake . -B build
 cmake --build build -j 16
 ```
-
-Note: This project uses `vcpkg`. If you already have it installed in the default
-location, we will just use that. In case you have it installed to another location
-or you don't have it at all, the cmake script will install it automatically to
-the default location. 
